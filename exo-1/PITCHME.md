@@ -7,7 +7,7 @@ A repository of spreadsheets with VBA macros
 ### Première macro
 
 - pour pratiquer l'enregistrement de macros
-- découvrir une partie du modèle object d'Excel
+- découvrir le modèle objet d'Excel
 - pour faire un peu de programmation
 - et ajouter quelques contrôles (bouton)
 
@@ -21,11 +21,9 @@ A repository of spreadsheets with VBA macros
 
 #HSLIDE
 
-### Le code
+### Le code - fonction auxillaire
 
 ```vbscript
-Rem Attribute VBA_ModuleType=VBAModule
-Option VBASupport 1
 Option Explicit
 Function sheetExists(sheetToFind As String) As Boolean
     Dim Sheet As Object
@@ -38,11 +36,20 @@ Function sheetExists(sheetToFind As String) As Boolean
         End If
     Next Sheet
 End Function
+```
+@[1](On se force à déclarer toutes les variables - c'est une bonne pratique)
+@[2](On décrit les arguments en entrée (sheetToFind) et le type du résultat)
+@[5](On suppose que la feuille cherchée n'existe pas)
+@[6](On parcourt toutes les feuilles de la collection (Worksheets))
+@[7-10](Si on a un match, alors la feuille existe et on renverra "True")
+
+#HSLIDE
+
+### Le code - macro principale
+
+```vbscript
 Sub MacroButeurs()
-'
-' MacroButeurs Macro
-'
-'
+
     Dim ws As Object
     Dim Color As Integer
     Dim loopRow As Object
@@ -59,7 +66,15 @@ Sub MacroButeurs()
     Sheets("AVANT").Select
     Set ws = Sheets.Add(After:=ActiveSheet)
     ws.Name = "APRES"
-    
+```
+@[1](On donne le nom MacroButeurs à notre macro)
+@[7-18](On détruit la feuille APRES et en recrée une toute neuve)
+
+#HSLIDE
+
+### Le code - macro principale - suite
+
+```vbscript
     ' Copie des colonnes et ré-arrangement
     Sheets("AVANT").Select
     Columns("D:D").Select
@@ -68,30 +83,20 @@ Sub MacroButeurs()
     Columns("A:A").Select
     ActiveSheet.Paste
     
-    Sheets("AVANT").Select
-    Columns("A:A").Select
-    Selection.Copy
-    Sheets("APRES").Select
-    Columns("B:B").Select
-    ActiveSheet.Paste
+    ...
 
     Sheets("AVANT").Select
-    Columns("B:B").Select
-    Selection.Copy
-    Sheets("APRES").Select
-    Columns("C:C").Select
-    ActiveSheet.Paste
-    
-    Sheets("AVANT").Select
-    Columns("C:C").Select
-    Selection.Copy
-    Sheets("APRES").Select
-    Columns("D:D").Select
-    ActiveSheet.Paste
-    
-    Sheets("AVANT").Select
     Range("A1").Select
- 
+```
+@[1-7](Copie de la colonne D de AVANT vers la colonne A de APRES)
+@[9](On répète pour les 3 autres colonnes)
+@[11-12](On "clique" dans la cellule A1)
+
+#HSLIDE
+
+### Le code - macro principale - suite
+
+```vbscript
     ' En-têtes en gras et centré
     Sheets("APRES").Select
     Range("A1:D1").Select
@@ -101,7 +106,15 @@ Sub MacroButeurs()
     
     ' Dimensionnement automatique des colonnes
     ActiveSheet.Range("A:D").EntireColumn.AutoFit
-    
+```
+@[1-6](Sélection de l'entête, centré, gras)
+@[8-9](Ajustement automatique de la largeur des colonnes)
+
+#HSLIDE
+
+### Le code - macro principale - suite
+
+```vbscript
     ' Coloriage des cellules en fonction du pays
     Sheets("APRES").Select
     For Each loopRow In ActiveSheet.UsedRange.Rows
@@ -119,7 +132,16 @@ Sub MacroButeurs()
             loopRow.Interior.Color = Sheets("Description").Range("Q21").Interior.Color
         End Select
     Next
+```
+@[3](On parcourt les lignes utiles de la feuille - UsedRange.Rows)
+@[5](Aiguillage en fonction de la valeur de la première cellule de la la ligne)
+@[7,9,11,13,15](Coloriage avec le code couleur de la page "Description")
     
+#HSLIDE
+
+### Le code - macro principale - suite
+
+```vbscript
     ' Calcul du nombre total de buts marqués
     Range("D46").Select
     ActiveCell.FormulaR1C1 = "=SUM(R[-44]C:R[-1]C)"
@@ -129,15 +151,7 @@ Sub MacroButeurs()
     Range("A1").Select
     Application.CutCopyMode = False
     
-    ' MsgBox (Application.Version)
 End Sub
 ```
-@[1](On importe les fonctions mathématiques - pour la racine carrée plus bas)
-@[3-4](Définition de la fonction f)
-@[6-7](Définition de la dérivée fp)
-@[11](Estimation initiale de la solution)
-@[12](On va faire 10 itérations)
-@[13](On met à jour l'estimation de la solution)
-@[15](Affichage de la solution obtenue par la méthode de Newton-Raphson)
-@[16](Affichade la la solution "exacte" $sqrt(3)$)
-
+@[3](On rentre la fonction à appliquer dans la cellule : on somme cwles données entre les lignes [ici-44] et [ici-1])
+@[6-7](On clique sur la cellule "A1")
