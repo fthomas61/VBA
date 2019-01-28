@@ -12,8 +12,6 @@ A repository of spreadsheets with VBA macros
 - et ajouter quelques contrôles (bouton)
 
 #HSLIDE
-<<<<<<< HEAD
-=======
 
 ### Le pitch
 
@@ -157,4 +155,3 @@ End Sub
 ```
 @[3](On rentre la fonction à appliquer dans la cellule : on somme cwles données entre les lignes [ici-44] et [ici-1])
 @[6-7](On clique sur la cellule "A1")
->>>>>>> f10a57c5274c38d307bc68ef6054f0ab45a118a6
