@@ -1,6 +1,6 @@
 # VBA macros
 
-A repository of spreadsheets with VBA macros
+A GitHub repository of spreadsheets with VBA macros
 
 #HSLIDE
 
